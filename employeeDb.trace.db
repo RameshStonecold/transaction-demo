@@ -1,0 +1,6 @@
+2024-06-07 15:22:14.212668+05:30 jdbc[14]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "[*]ADDRESS"; expected "ALTER, ANALYZE"; SQL statement:
+ADDRESS [42001-224]
+2024-06-07 15:27:16.134981+05:30 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "[*]EMPLOYEE"; expected "EXPLAIN, EXECUTE"; SQL statement:
+EMPLOYEE [42001-224]
