@@ -1,6 +1,12 @@
 pipeline {
     agent any 
-  
+
+  environment {
+      DOCKERHUB_CREDENTIALS = credentials('DOCKER_HUB_CREDENTIAL')
+      VERSION = "${env.BUILD_ID}"
+
+    }
+
     tools {
         maven 'maven-3.9.9' 
     }
@@ -16,22 +22,19 @@ pipeline {
         }
         stage('Build docker image'){
             steps {
-                script{
-                    bat 'docker build -t RameshStonecold/transaction-demo:0.0.1 .'
-                }
+
+                    bat 'docker build -t RameshStonecold/transaction-demo:${VERSION} .'
+
             }
         }
-        
-        stage('Docker Registry'){
-            steps{
-                script{
-                 withDockerRegistry(credentialsId: 'dockercId', url: 'https://registry-1.docker.io/v2/') {
-                   bat 'docker push RameshStonecold/transaction-demo:0.0.1'
-                }
-                }
-            }
+
+        stage('Docker login and Push') {
+              steps {
+                  bat 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+
+                  bat 'docker push RameshStonecold/transaction-demo::${VERSION}'
+              }
         }
-        
         stage('Cleanup workspace'){
             steps{
                 deleteDir()
